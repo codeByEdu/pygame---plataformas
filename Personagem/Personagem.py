@@ -1,20 +1,21 @@
 import pygame
-from Bala import Bala 
+from .Bala import Bala
 largura = 890
 altura = 750
 class Personagem(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.personagem = pygame.image.load('Sprites/personagem.png')
-        self.personagem = pygame.transform.scale(self.personagem, (60, 70))
-        self.rect = self.personagem.get_rect()
+        self.image = pygame.image.load('Sprites/personagem.png')
+        self.image = pygame.transform.scale(self.image, (60, 70))
+        self.rect = self.image.get_rect()
         self.rect.centerx = largura/4
         self.rect.centery = altura/4
         self.life = 500
         self.velocidade = 25
+       
 
     def colocar(self, superficie):
-        superficie.blit(self.personagem, self.rect)
+        superficie.blit(self.image, self.rect)
 
     def update(self):
         self.speedx = 0
@@ -39,10 +40,11 @@ class Personagem(pygame.sprite.Sprite):
             self.rect.bottom = altura
         if self.rect.top < 0:
             self.rect.top = 0
-    def shoot(self):
-        tiro = Bala(pygame.mouse.get_rel())
-        #all_sprites.add(tiro)
-        tiro.add(tiro)    
+    def shoot(self, all_sprites,tiros):
+
+        tiro = Bala(self.rect.centerx, self.rect.centery)
+        all_sprites.add(tiro)
+        tiros.add(tiro)    
 
 
         
