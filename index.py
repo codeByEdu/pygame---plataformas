@@ -21,11 +21,11 @@ jogador = Personagem()
 all_sprites.add(jogador)
 tiros = pygame.sprite.Group()
 jogando = True
-grupo_de_alvos = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
 
 for i in range(5):
     zumbi = Zumbi(random.randrange(0, largura), 350)
-    grupo_de_alvos.add(zumbi)
+    enemies.add(zumbi)
 scroll = 0 
 ground_image = pygame.image.load('Sprites/ground.png').convert_alpha()
 ground_width = ground_image.get_width()
@@ -61,18 +61,23 @@ while jogando:
                 jogador.shoot(all_sprites,tiros)
     key = pygame.key.get_pressed()
     if key[pygame.K_a] and scroll > 0:
-        scroll -= 3
-        all_sprites.update()
+        scroll -= 2
+        
     if key[pygame.K_d] and scroll < 3000:
-        scroll += 3
-        all_sprites.update()
+        scroll += 2
+    all_sprites.update()   
 
-    all_sprites.update()
+    hits = pygame.sprite.groupcollide(enemies, tiros, True, True)
+    for hit in hits:
+        m = Zumbi(random.randrange(0, largura), 350)
+        all_sprites.add(m)
+        enemies.add(m)
+    
     
     tela.blit(ground_image, (0, 0))
-    grupo_de_alvos.draw(tela)
+    enemies.draw(tela)
     jogador.colocar(tela)
     pygame.display.update()
     all_sprites.draw(tela)
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(120)

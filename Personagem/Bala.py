@@ -1,15 +1,17 @@
 import pygame
-import math
+
+
+
 class Bala(pygame.sprite.Sprite):
     def __init__(self, x, y, direcao):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((10, 20))
+        self.image = pygame.Surface((9, 15))
         self.image.fill((0, 255, 0))
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.centerx = x
-        self.speedx = -10
-        self.speedy = -10
+        self.speedx = -5
+        self.speedy = -5
         self.direcao = direcao
     def update(self):
         if self.direcao == 'esquerda':

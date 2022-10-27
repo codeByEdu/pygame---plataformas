@@ -6,4 +6,5 @@ class Zumbi(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x, pos_y]
+       
 
