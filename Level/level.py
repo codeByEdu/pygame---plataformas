@@ -70,8 +70,10 @@ class level:
         for sprite in self.plataformas.sprites():
             if sprite.rect.colliderect(personagem.rect):
                 if personagem.direcao.y > 0:
+                    
                     personagem.rect.bottom = sprite.rect.top
                     personagem.direcao.y = 0
+                    
                 elif personagem.direcao.y < 0:
                     personagem.rect.top = sprite.rect.bottom
                     personagem.direcao.y = 0                    

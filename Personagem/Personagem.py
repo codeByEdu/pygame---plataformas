@@ -1,5 +1,6 @@
 import pygame
 from .Bala import Bala
+from .suporte import pasta
 largura = 800
 altura = 432
 
@@ -9,8 +10,11 @@ altura = 432
 class Personagem(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load('Sprites/personagem.png')
-        self.image = pygame.transform.scale(self.image, (64, 64))
+        self.import_assets()
+        self.frame_index = 0
+        self.velocidade_animacao = 0.15
+        self.image = self.animacoes['parado'][self.frame_index]
+        
         self.rect = self.image.get_rect(topleft = pos)
         self.life = 500
         self.velocidade = 4
@@ -18,9 +22,11 @@ class Personagem(pygame.sprite.Sprite):
         self.direcao = pygame.math.Vector2(0,0)
         self.pulando = False
         self.gravidade = 0.9
-        self.pulo = -20
+        self.pulo = -15
         self.velocidade_pulo = self.pulo
         self.stop = largura*0.55
+        
+            
 
     def colocar(self, superficie):
         superficie.blit(self.image, self.rect)
@@ -38,7 +44,9 @@ class Personagem(pygame.sprite.Sprite):
             self.direcao.x = 0
 
         if keystate[pygame.K_w]:
-            self.jump()   
+            if self.direcao.y >= 0 and self.pulando == False:
+                self.jump()
+                   
         
         
         # if self.rect.right >  largura:
@@ -48,12 +56,13 @@ class Personagem(pygame.sprite.Sprite):
      
     def update(self):
         self.comandos()
-        
+        self.animar_personagem()
         
         
     def jump(self):
-        self.direcao.y = self.pulo
-        
+        if self.pulando == False:
+            self.direcao.y = self.pulo
+            self.pulando == True
 
         
     def shoot(self, all_sprites,tiros):
@@ -63,4 +72,23 @@ class Personagem(pygame.sprite.Sprite):
         tiros.add(tiro)    
 
 
-        
+    def import_assets(self):
+        caminho = 'Sprites/Personagem/'
+        self.animacoes = {'parado':[],'correndo':[],'pulando':[], 'caindo':[]}
+
+        for animacao in self.animacoes.keys():
+            caminho_completo = caminho + animacao
+            self.animacoes[animacao] = pasta(caminho_completo)
+
+    def animar_personagem(self):
+        animacao = self.animacoes['parado']
+
+
+        #loop sobre o frame_index
+
+        self.frame_index += self.velocidade_animacao
+        if self.frame_index >= len(animacao):
+            self.frame_index = 0
+
+        self.image = animacao[int(self.frame_index)]
+
