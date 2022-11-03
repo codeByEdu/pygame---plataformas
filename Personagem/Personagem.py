@@ -17,16 +17,19 @@ class Personagem(pygame.sprite.Sprite):
         
         self.rect = self.image.get_rect(topleft = pos)
         self.life = 500
-        self.velocidade = 4
-        #self.direcao = 'direita'
+        self.velocidade = 1
+        self.direita = True
         self.direcao = pygame.math.Vector2(0,0)
-        self.pulando = False
+        self.estado = 'parado'
         self.gravidade = 0.9
-        self.pulo = -15
+        self.pulo = -22
         self.velocidade_pulo = self.pulo
         self.stop = largura*0.55
         
-            
+        self.on_ground = False
+        self.on_ceiling = False
+        self.on_left = False
+        self.on_right = False   
 
     def colocar(self, superficie):
         superficie.blit(self.image, self.rect)
@@ -34,17 +37,17 @@ class Personagem(pygame.sprite.Sprite):
     def comandos(self):
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_a] :
-            self.direcao.x = -2
-            # self.direcao = 'esquerda'
+            self.direcao.x = -1
+            self.direita = False
              
         elif keystate[pygame.K_d] :
-            self.direcao.x = 2
-            # self.direcao = 'direita'
+            self.direcao.x = 1
+            self.direita = True
         else:
             self.direcao.x = 0
 
         if keystate[pygame.K_w]:
-            if self.direcao.y >= 0 and self.pulando == False:
+           if  self.on_ground == True:
                 self.jump()
                    
         
@@ -57,12 +60,13 @@ class Personagem(pygame.sprite.Sprite):
     def update(self):
         self.comandos()
         self.animar_personagem()
+        self.estado_personagem()
         
         
     def jump(self):
-        if self.pulando == False:
+        
             self.direcao.y = self.pulo
-            self.pulando == True
+          
 
         
     def shoot(self, all_sprites,tiros):
@@ -81,7 +85,7 @@ class Personagem(pygame.sprite.Sprite):
             self.animacoes[animacao] = pasta(caminho_completo)
 
     def animar_personagem(self):
-        animacao = self.animacoes['parado']
+        animacao = self.animacoes[self.estado]
 
 
         #loop sobre o frame_index
@@ -89,6 +93,34 @@ class Personagem(pygame.sprite.Sprite):
         self.frame_index += self.velocidade_animacao
         if self.frame_index >= len(animacao):
             self.frame_index = 0
+        imagem = animacao[int(self.frame_index)]
+        imagem_virada = pygame.transform.flip(imagem,True,False)
+        if self.direita:
+            self.image = imagem
+        else:
+            self.image = imagem_virada
 
-        self.image = animacao[int(self.frame_index)]
+        #set the rect
 
+        if self.on_ground and self.on_right:
+           self.rect = self.image.get_rect(bottomright = self.rect.bottomright) 
+        elif self.on_ground and self.on_left:
+            self.rect = self.image.get_rect(bottomleft = self.rect.bottomleft) 
+        elif self.on_ground:
+            self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
+        if self.on_ceiling and self.on_right:
+           self.rect = self.image.get_rect(topright = self.rect.topright) 
+        elif self.on_ceiling and self.on_left:
+            self.rect = self.image.get_rect(topleft = self.rect.topleft) 
+        elif self.on_ceiling:
+            self.rect = self.image.get_rect(midtop = self.rect.midtop)
+    def estado_personagem(self):
+        if self.direcao.y < 0:
+            self.estado = 'pulando'
+        elif self.direcao.y > 1:
+            self.estado = 'caindo'
+        else:
+            if self.direcao.x != 0:
+                self.estado = 'correndo'
+            else:
+                self.estado = 'parado' 

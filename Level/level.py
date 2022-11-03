@@ -1,6 +1,7 @@
 import pygame
 
 from Personagem.Personagem import Personagem
+from Personagem.Zumbi import Zumbi
 from .Plataforma import Plataforma
 from .settings import tam_plataforma, width
 
@@ -11,10 +12,12 @@ class level:
         self.display_surface = surface
         self.setup_level(level_data)
         self.world_shift = 0
+        self.x_atual = 0
 
     def setup_level(self,layout):
         self.plataformas = pygame.sprite.Group()
         self.personagem = pygame.sprite.GroupSingle()
+        self.zumbi = pygame.sprite.GroupSingle()
         for row_index, row in enumerate(layout):
             for col_index,cell in enumerate(row):
                 #print(f'{row_index},{col_index}:{cell}')
@@ -28,6 +31,11 @@ class level:
                     y = row_index * tam_plataforma
                     personagem = Personagem((x,y))
                     self.personagem.add(personagem)
+                elif cell=='Z':
+                    x = col_index * tam_plataforma
+                    y = row_index * tam_plataforma
+                    zumbi = Zumbi((x,y))
+                    self.zumbi.add(zumbi)
 
 
     def run(self):
@@ -40,6 +48,13 @@ class level:
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
+        #zumbi
+        self.zumbi.update(self.world_shift)
+        self.zumbi.draw(self.display_surface)
+        
+        
+
+
     def scroll_x(self):
         personagem = self.personagem.sprite
         personagem_x = personagem.rect.centerx
@@ -60,20 +75,43 @@ class level:
             if sprite.rect.colliderect(personagem.rect):
                 if personagem.direcao.x< 0:
                     personagem.rect.left = sprite.rect.right
+                    personagem.on_left = True
+                    self.x_atual = personagem.rect.left
                 elif personagem.direcao.x>0:
                     personagem.rect.right = sprite.rect.left
-               
+                    personagem.on_right = True
+                    self.x_atual = personagem.rect.right
+        if personagem.on_left and (personagem.rect.left < self.x_atual or personagem.direcao.x >= 0):
+            personagem.on_left = False
+        if personagem.on_right and (personagem.rect.right > self.x_atual or personagem.direcao.x <= 0):
+            personagem.on_right = False
+
     def colisoes_verticais(self):
         personagem = self.personagem.sprite
+        zumbi = self.zumbi.sprite
         personagem.direcao.y += 1
         personagem.rect.y += personagem.direcao.y
+
+
         for sprite in self.plataformas.sprites():
             if sprite.rect.colliderect(personagem.rect):
                 if personagem.direcao.y > 0:
                     
                     personagem.rect.bottom = sprite.rect.top
                     personagem.direcao.y = 0
+                    personagem.on_ground = True
                     
                 elif personagem.direcao.y < 0:
                     personagem.rect.top = sprite.rect.bottom
                     personagem.direcao.y = 0                    
+                    personagem.on_ceiling = True
+
+                if zumbi.direcao.y > 0:
+                    
+                    zumbi.rect.bottom = sprite.rect.top
+                    zumbi.direcao.y = 0
+                    zumbi.on_ground = True
+        if personagem.on_ground and personagem.direcao.y < 0 or personagem.direcao.y >1:
+            personagem.on_ground = False
+        if personagem.on_ceiling and personagem.direcao.y > 0:
+            personagem.on_ceiling = False

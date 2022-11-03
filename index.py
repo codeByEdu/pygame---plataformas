@@ -11,7 +11,7 @@ from Level.settings import *
 
 clock = pygame.time.Clock()
 largura = 1200
-altura = 800
+altura = 700
 
 pygame.init()
 tela = pygame.display.set_mode((largura, altura))

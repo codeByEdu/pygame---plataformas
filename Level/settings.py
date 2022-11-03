@@ -1,15 +1,15 @@
 level_map = [
-'                                       ',
-'                                       ',
-'                                       ',
-' XX     XXXX                           ',
-' XX                       XXX          ',
-' XXXX            XX                    ',
-' XXXX          XX                  XX  ',
-' XX         XXXX     XX  XX      XX    ',
-'  P         XXXX     XX  XXX    XXXX   ',
-'XXXXXXXXXX  XXXXXX   XX  XXXXX  XXXXXX ',
-'XXXXXXXXXX  XXXXXXX  XX  XXXXXX XXXXXX ']
+'                                                              ',
+'                                                              ',
+'                                                              ',
+'        XXXX                                                  ',
+'                          XXX                                 ',
+'                 XX                                           ',
+'               XX                  XX              XXXX       ',
+'              XX                   XXXX                       ',
+'  P   Z     XXXX     XX  XXXXX  XXXXXXX                       ',
+'XXXXXXXXXX  XXXXXXX  XX  XXXXX  XXXXXXXXXXXXXXX  XXXXXXXXXXX  ',
+'XXXXXXXXXX  XXXXXXX  XX  XXXXXX XXXXXXXXXXXXXXX  XXXXXXXXXXX  ']
 
 tam_plataforma = 64
 width = 1200
