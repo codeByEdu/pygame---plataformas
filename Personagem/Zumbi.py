@@ -12,17 +12,19 @@ class Zumbi(pygame.sprite.Sprite):
         self.estado = 'Parado'
         self.direita = True
         self.rect = self.image.get_rect(topleft = pos)
-    
+        self.speed = 2
         self.rect = self.image.get_rect(topleft = pos)
         self.direcao = pygame.math.Vector2(1,1)
         self.on_ground = False
         self.on_ceiling = False
         self.on_left = False
         self.on_right = False   
-    def update(self,x_shift):
+    def update(self,x_shift, player):
         self.rect.x += x_shift
         self.animar_personagem()
         self.estado_personagem()
+        self.move_towards_player2(player)
+    
     def caminhar(self):
 
         self.direcao.x = -1
@@ -33,6 +35,15 @@ class Zumbi(pygame.sprite.Sprite):
         # self.direita = True
         
         # self.direcao.x = 0
+
+    def move_towards_player2(self, player):
+        # Find direction vector (dx, dy) between enemy and player.
+        dirvect = pygame.math.Vector2(player.rect.x - self.rect.x,
+                                        player.rect.y - self.rect.y)
+        dirvect.normalize()
+        # Move along this normalized vector towards the player at current speed.
+        dirvect.scale_to_length(self.speed)
+        self.rect.move_ip(dirvect)
     def import_assets(self):
         caminho = 'Sprites/Zumbi/'
         self.animacoes = {'Parado':[],'Andando':[],'Morto':[], 'Atacando':[]}

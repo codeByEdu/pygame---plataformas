@@ -15,7 +15,7 @@ altura = 700
 
 pygame.init()
 tela = pygame.display.set_mode((largura, altura))
-level = level(level_map,tela)
+level = level(piece_main,tela)
 
 
 #imagemFundo = pygame.image.load('Sprites/bg.jpg')
@@ -35,21 +35,7 @@ ground_width = ground_image.get_width()
 ground_height = ground_image.get_height()
 
 bg_images = []
-# for i in range(1, 6):
-#   bg_image = pygame.image.load(f'Sprites/plx-{i}.png').convert_alpha()
-#   bg_images.append(bg_image)
-# bg_width = bg_images[0].get_width()
 
-# def draw_bg():
-#   for x in range(5):
-#     speed = 1
-#     for i in bg_images:
-#       tela.blit(i, ((x * bg_width) - scroll * speed, 0))
-#       speed += 0.2
-
-# def draw_ground():
-#   for x in range(15):
-#     tela.blit(ground_image, ((x * ground_width) - scroll * 2.5, altura - ground_height))
 
 while jogando:
     # draw_bg()

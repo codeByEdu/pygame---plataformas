@@ -17,7 +17,7 @@ class level:
     def setup_level(self,layout):
         self.plataformas = pygame.sprite.Group()
         self.personagem = pygame.sprite.GroupSingle()
-        self.zumbi = pygame.sprite.GroupSingle()
+        self.zumbi = pygame.sprite.Group()
         for row_index, row in enumerate(layout):
             for col_index,cell in enumerate(row):
                 #print(f'{row_index},{col_index}:{cell}')
@@ -49,7 +49,7 @@ class level:
         self.colisoes_horizontais()
         self.colisoes_verticais()
         #zumbi
-        self.zumbi.update(self.world_shift)
+        self.zumbi.update(self.world_shift, self.personagem.sprite)
         self.zumbi.draw(self.display_surface)
         
         
@@ -88,7 +88,7 @@ class level:
 
     def colisoes_verticais(self):
         personagem = self.personagem.sprite
-        zumbi = self.zumbi.sprite
+        zumbi = self.zumbi.sprites()
         personagem.direcao.y += 1
         personagem.rect.y += personagem.direcao.y
 
@@ -106,11 +106,11 @@ class level:
                     personagem.direcao.y = 0                    
                     personagem.on_ceiling = True
 
-                if zumbi.direcao.y > 0:
+                # if zumbi.direcao.y > 0:
                     
-                    zumbi.rect.bottom = sprite.rect.top
-                    zumbi.direcao.y = 0
-                    zumbi.on_ground = True
+                #     zumbi.rect.bottom = sprite.rect.top
+                #     zumbi.direcao.y = 0
+                #     zumbi.on_ground = True
         if personagem.on_ground and personagem.direcao.y < 0 or personagem.direcao.y >1:
             personagem.on_ground = False
         if personagem.on_ceiling and personagem.direcao.y > 0:
