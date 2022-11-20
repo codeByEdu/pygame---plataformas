@@ -1,29 +1,75 @@
 import random
-level_map = [
-'                                                              ',
-'                                                              ',
-'                                                              ',
-'        XXXX                                                  ',
-'                          XXX                                 ',
-'                 XX                                           ',
-'               XX                  XX              XXXX       ',
-'              XX                   XXXX                       ',
-'  P   Z     XXXX     XX  XXXXX  XXXXXXX                       ',
-'XXXXXXXXXX  XXXXXXX  XX  XXXXX  XXXXXXXXXXXXXXX  XXXXXXXXXXX  ',
-'XXXXXXXXXX  XXXXXXX  XX  XXXXXX XXXXXXXXXXXXXXX  XXXXXXXXXXX  ']
 
 piece_main = [
-'           ',
-'           ',
-'           ',
-'       XXXX',
-'           ',
-'           ',
-'           ',
-'           ',
-'  P   Z    ',
+'X          ',
+'X          ',
+'X          ',
+'X          ',
+'X          ',
+'X          ',
+'X          ',
+'X          ',
+'X P   Z    ',
 'XXXXXXXXXXX',
-'XXXXXXXXXXX']
+'XXXXXXXXXXX'
+]
+
+piece_1 = [
+'           ',
+'           ',
+'           ',
+'           ',
+'           ',
+'        Z  ',
+'       XX  ',
+'           ',
+'           ',
+'XXX    XXXX',
+'XXX    XXXX',
+]
+
+piece_2 = [
+'           ',
+'           ',
+'           ',
+'           ',
+'           ',
+'           ',
+'       X   ',
+'           ',
+'      Z    ',
+'XXXXXXXXXXX',
+'XXXXXXXXXXX',
+]
+
+piece_3 = [
+'           ',
+'           ',
+'           ',
+'           ',
+' XXXX      ',
+'           ',
+'        X  ',
+'           ',
+'        Z  ',
+'XXX    XXXX',
+'XXX    XXXX',
+]
+
+piece_4 = [
+'           ',
+'           ',
+' XXXX      ',
+'           ',
+'         X ',
+'           ',
+'       XX  ',
+'           ',
+'      Z    ',
+'XXXXXXXXXXX',
+'XXXXXXXXXXX',
+]
+
 piece_5 = [
 '           ',
 '           ',
@@ -38,71 +84,54 @@ piece_5 = [
 'XXXXXXX  XX ', 
 ]
 
-
-
-
-
-
-
-piece_1 = [
-'           ',
-'           ',
-'           ',
-'           ',
-'           ',
-'        Z  ',
-'       XXXX',
-'           ',
-'           ',
-'XXX    XXXX',
-'XXX    XXXX',
+parede = [
+'X',
+'X',
+'X',
+'X',
+'X',
+'X',
+'X',
+'X',
+'X',
+'X',
+'X',
 ]
-piece_2 = [
-'           ',
-'           ',
-'           ',
-'           ',
-'           ',
-'           ',
-'       XXXX',
-'           ',
-'      Z    ',
-'XXXXXXXXXXX',
-'XXXXXXXXXXX',
-]
-piece_3 = [
-'           ',
-'           ',
-'           ',
-'           ',
-' XXXX      ',
-'           ',
-'       XXXX',
-'           ',
-'        Z  ',
-'XXX    XXXX',
-'XXX    XXXX',
-]
-piece_4 = [
-'           ',
-'           ',
-'XXXXX      ',
-'           ',
-'         XX',
-'           ',
-'       XXXX',
-'           ',
-'      Z    ',
-'XXXXXXXXXXX',
-'XXXXXXXXXXX',
-]
-fase = [piece_1,piece_2, piece_3, piece_4, piece_5]
-for i in range(0,3):
+
+pecas = [];
+
+def geradorPeca():
+    peca = [];
+
+    piso = 'XXXXXXXXXXX'
+    ceu = '           '
+    zumbi = 'Z'
+    bloco = 'X'
+
+    for i in range(11):
+        if(i < 4):
+            peca.append(ceu)
+
+        if(i >= 4 and i <= 9):
+            parte = []
+            for i in range(11):
+                if(random.randint(0, 4) % 2 == 0):
+                    parte.append(bloco)
+                else:
+                    parte.append(' ')
+
+        if(i >= 10):
+            peca.append(piso)
+
+        print(peca)
+
+geradorPeca()
+
+fase = [piece_1,piece_2, piece_3, piece_4, piece_5, parede]
+for i in range(len(fase)):
     for a in range(len(fase[i])):
-        piece_main[a] += fase[i][a] 
-
-
+        piece_main[a] += fase[i][a]
 
 tam_plataforma = 64
-width = 1200
+width = 1280
 height = len(piece_main) * tam_plataforma

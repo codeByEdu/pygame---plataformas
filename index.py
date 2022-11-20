@@ -1,17 +1,17 @@
-import pygame
-import sys
 import random
-from Personagem.Personagem import Personagem
-from Personagem.Zumbi import Zumbi
-from Personagem.Bala import Bala
+import sys
+
+import pygame
 
 from Level.level import level
 from Level.settings import *
-
+from Personagem.Bala import Bala
+from Personagem.Personagem import Personagem
+from Personagem.Zumbi import Zumbi
 
 clock = pygame.time.Clock()
 largura = 1200
-altura = 700
+altura = 700 
 
 pygame.init()
 tela = pygame.display.set_mode((largura, altura))
@@ -38,8 +38,6 @@ bg_images = []
 
 
 while jogando:
-    # draw_bg()
-    # draw_ground()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()

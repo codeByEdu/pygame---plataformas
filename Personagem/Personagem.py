@@ -1,11 +1,10 @@
 import pygame
+
 from .Bala import Bala
 from .suporte import pasta
+
 largura = 800
 altura = 432
-
-
-
 
 class Personagem(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -64,17 +63,12 @@ class Personagem(pygame.sprite.Sprite):
         
         
     def jump(self):
-        
-            self.direcao.y = self.pulo
-          
-
+        self.direcao.y = self.pulo
         
     def shoot(self, all_sprites,tiros):
-
         tiro = Bala(self.rect.centerx, self.rect.centery, self.direcao)
         all_sprites.add(tiro)
         tiros.add(tiro)    
-
 
     def import_assets(self):
         caminho = 'Sprites/Personagem/'
