@@ -14,7 +14,7 @@ class Personagem(pygame.sprite.Sprite):
         self.velocidade_animacao = 0.15
         self.image = self.animacoes['parado'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
-        self.life = 500
+        self.life = 5
         self.velocidade = 1
         self.direita = True
         self.direcao = pygame.math.Vector2(0,0)
@@ -36,16 +36,16 @@ class Personagem(pygame.sprite.Sprite):
         if keystate[pygame.K_a] :
             self.direcao.x = -1
             self.direita = False
-             
         elif keystate[pygame.K_d] :
             self.direcao.x = 1
             self.direita = True
         else:
             self.direcao.x = 0
-
         if keystate[pygame.K_w]:
            if  self.on_ground == True:
                 self.jump()
+        if keystate[pygame.K_SPACE]:
+            self.shoot()
                    
     def update(self):
         self.comandos()
@@ -55,13 +55,17 @@ class Personagem(pygame.sprite.Sprite):
     def jump(self):
         self.direcao.y = self.pulo
         
-    def shoot():
-        print("Oi")
+    def shoot(self):
+        self.estado = 'atacando'
+
+    def levaDano(self):
+        self.estado = 'dano'
+        self.velocidade_animacao = 1
+        self.frame_index = 1
 
     def import_assets(self):
         caminho = 'Sprites/Personagem/'
-        self.animacoes = {'parado':[],'correndo':[],'pulando':[], 'caindo':[], 'atirando':[]}
-
+        self.animacoes = {'parado':[],'correndo':[],'pulando':[], 'caindo':[], 'atacando':[]}
         for animacao in self.animacoes.keys():
             caminho_completo = caminho + animacao
             self.animacoes[animacao] = pasta(caminho_completo)

@@ -51,10 +51,6 @@ class Zumbi(pygame.sprite.Sprite):
 
     def animar_personagem(self):
         animacao = self.animacoes[self.estado]
-
-
-        #loop sobre o frame_index
-
         self.frame_index += self.velocidade_animacao
         if self.frame_index >= len(animacao):
             self.frame_index = 0
@@ -64,9 +60,6 @@ class Zumbi(pygame.sprite.Sprite):
             self.image  = pygame.transform.scale(imagem ,(64,64))
         else:
             self.image = pygame.transform.scale(imagem_virada ,(64,64))
-
-        #set the rect
-
         if self.on_ground and self.on_right:
            self.rect = self.image.get_rect(bottomright = self.rect.bottomright) 
         elif self.on_ground and self.on_left:

@@ -16,21 +16,13 @@ altura = 700
 pygame.init()
 tela = pygame.display.set_mode((largura, altura))
 level = level(piece_main,tela)
-
-
-#imagemFundo = pygame.image.load('Sprites/bg.jpg')
 pygame.display.set_caption("Pupo's attack")
 all_sprites = pygame.sprite.Group()
 
 tiros = pygame.sprite.Group()
 jogando = True
 enemies = pygame.sprite.Group()
-
-# for i in range(5):
-#     zumbi = Zumbi(random.randrange(0, largura), 350)
-#     enemies.add(zumbi)
 scroll = 0 
-
 bg_images = []
 
 
