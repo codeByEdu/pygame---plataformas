@@ -21,49 +21,51 @@ class level:
         self.zumbi = pygame.sprite.Group()
         for row_index, row in enumerate(layout):
             for col_index,cell in enumerate(row):
+                x = col_index * tam_plataforma
+                y = row_index * tam_plataforma
                 if cell == 'X':
-                    x = col_index * tam_plataforma
-                    y = row_index * tam_plataforma
                     plataforma = Plataforma((x,y),tam_plataforma, 'white')
                     self.plataformas.add(plataforma)
                 elif cell=='P':
-                    x = col_index * tam_plataforma
-                    y = row_index * tam_plataforma
                     personagem = Personagem((x,y))
                     self.personagem.add(personagem)
                 elif cell=='Z':
-                    x = col_index * tam_plataforma
-                    y = row_index * tam_plataforma
                     zumbi = Zumbi((x,y))
                     self.zumbi.add(zumbi)
                 elif cell=='N':
-                    x = col_index * tam_plataforma
-                    y = row_index * tam_plataforma
                     plataforma = Plataforma((x,y),tam_plataforma, 'black')
                     self.plataformas.add(plataforma)
                 elif cell=='M':
-                    x = col_index * tam_plataforma
-                    y = row_index * tam_plataforma
-                    plataforma = Plataforma((x,y),tam_plataforma, 'black')
+                    plataforma = Plataforma((x,y),tam_plataforma, 'red')
                     self.plataformas.add(plataforma)
 
 
     def run(self):
         #level plataformas
-        self.plataformas.update(self.world_shift)
+        self.plataformas.update(self.world_shift, self.personagem.sprite)
         self.plataformas.draw(self.display_surface)
+
         #player
         self.personagem.update()
         self.personagem.draw(self.display_surface)
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
+
+        white = (255, 255, 255)
+        green = (0, 255, 0)
+        black = (0, 0, 0)
+        font = pygame.font.Font('arial.ttf', 32)
+        text = font.render(str(50), True, green, black)
+        textRect = text.get_rect()
+        textRect.center = (1200 // 2, 100)
+        self.display_surface.blit(text, textRect)
+        print(self.personagem)
+
         #zumbi
         self.zumbi.update(self.world_shift, self.personagem.sprite)
         self.zumbi.draw(self.display_surface)
         
-        
-
 
     def scroll_x(self):
         personagem = self.personagem.sprite

@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 from .Bala import Bala
@@ -29,7 +31,7 @@ class Personagem(pygame.sprite.Sprite):
         self.on_right = False   
 
     def colocar(self, superficie):
-        superficie.blit(self.image, self.rect)
+        superficie.blit(self.image, self.rect, (0, 100, 255))
 
     def comandos(self):
         keystate = pygame.key.get_pressed()
@@ -46,22 +48,32 @@ class Personagem(pygame.sprite.Sprite):
                 self.jump()
         if keystate[pygame.K_SPACE]:
             self.shoot()
-                   
+
+    def morreu(self):
+        print("MORREU")
+        pygame.quit()
+        sys.exit()           
+
     def update(self):
         self.comandos()
         self.animar_personagem()
         self.estado_personagem()
+
+        if(self.rect.y >= 584):
+            self.morreu()
         
     def jump(self):
         self.direcao.y = self.pulo
         
     def shoot(self):
         self.estado = 'atacando'
+        self.velocidade_animacao = 0.5
 
     def levaDano(self):
-        self.estado = 'dano'
-        self.velocidade_animacao = 1
-        self.frame_index = 1
+        self.life -= 0.01
+
+        if self.life < 0:
+            self.morreu()
 
     def import_assets(self):
         caminho = 'Sprites/Personagem/'

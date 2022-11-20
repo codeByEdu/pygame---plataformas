@@ -23,22 +23,16 @@ tiros = pygame.sprite.Group()
 jogando = True
 enemies = pygame.sprite.Group()
 scroll = 0 
-bg_images = []
-
+bg_imagews = []
 
 while jogando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-
-    hits = pygame.sprite.groupcollide(enemies, tiros, True, True)
-    for hit in hits:
-        m = Zumbi(random.randrange(0, largura), 350)
-        all_sprites.add(m)
-        enemies.add(m)
-    tela.fill('black')
     level.run()
-    
     pygame.display.update()
     clock.tick(60)
+    tela.fill('black')
+  
+    

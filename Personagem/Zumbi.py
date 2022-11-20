@@ -1,4 +1,4 @@
-import math
+from time import sleep
 
 import pygame
 
@@ -37,10 +37,19 @@ class Zumbi(pygame.sprite.Sprite):
     def move_towards_player2(self, player):
         dirvect = pygame.math.Vector2(player.rect.x - self.rect.x,
                                         player.rect.y - self.rect.y)
-        dirvect.normalize()
-        dirvect.scale_to_length(self.speed)
-        self.rect.move_ip(dirvect)
+
+        if dirvect.length() >= 60:
+            dirvect.normalize_ip()
+            dirvect *= self.speed
+            self.direcao = dirvect
+            self.rect.x += dirvect.x
+            self.rect.y += dirvect.y
+        else:
+            self.estado = 'Atacando'
+            player.levaDano()
+
         
+
     def import_assets(self):
         caminho = 'Sprites/Zumbi/'
         self.animacoes = {'Parado':[],'Andando':[],'Morto':[], 'Atacando':[]}
@@ -57,9 +66,9 @@ class Zumbi(pygame.sprite.Sprite):
         imagem = animacao[int(self.frame_index)]
         imagem_virada = pygame.transform.flip(imagem,True,False)
         if self.direita:
-            self.image  = pygame.transform.scale(imagem ,(64,64))
+            self.image  = pygame.transform.scale(imagem ,(84,64))
         else:
-            self.image = pygame.transform.scale(imagem_virada ,(64,64))
+            self.image = pygame.transform.scale(imagem_virada ,(84,64))
         if self.on_ground and self.on_right:
            self.rect = self.image.get_rect(bottomright = self.rect.bottomright) 
         elif self.on_ground and self.on_left:
