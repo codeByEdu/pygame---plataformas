@@ -2,6 +2,7 @@ import pygame
 
 from Personagem.Personagem import Personagem
 from Personagem.Zumbi import Zumbi
+
 from .Plataforma import Plataforma
 from .settings import tam_plataforma, width
 
@@ -20,11 +21,10 @@ class level:
         self.zumbi = pygame.sprite.Group()
         for row_index, row in enumerate(layout):
             for col_index,cell in enumerate(row):
-                #print(f'{row_index},{col_index}:{cell}')
                 if cell == 'X':
                     x = col_index * tam_plataforma
                     y = row_index * tam_plataforma
-                    plataforma = Plataforma((x,y),tam_plataforma)
+                    plataforma = Plataforma((x,y),tam_plataforma, 'white')
                     self.plataformas.add(plataforma)
                 elif cell=='P':
                     x = col_index * tam_plataforma
@@ -36,6 +36,16 @@ class level:
                     y = row_index * tam_plataforma
                     zumbi = Zumbi((x,y))
                     self.zumbi.add(zumbi)
+                elif cell=='N':
+                    x = col_index * tam_plataforma
+                    y = row_index * tam_plataforma
+                    plataforma = Plataforma((x,y),tam_plataforma, 'black')
+                    self.plataformas.add(plataforma)
+                elif cell=='M':
+                    x = col_index * tam_plataforma
+                    y = row_index * tam_plataforma
+                    plataforma = Plataforma((x,y),tam_plataforma, 'black')
+                    self.plataformas.add(plataforma)
 
 
     def run(self):

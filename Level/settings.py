@@ -1,15 +1,15 @@
 import random
 
 piece_main = [
-'X          ',
-'X          ',
-'X          ',
-'X          ',
-'X          ',
-'X          ',
-'X          ',
-'X          ',
-'X P   Z    ',
+'N          ',
+'N          ',
+'N          ',
+'N          ',
+'N          ',
+'N          ',
+'N          ',
+'N          ',
+'N P   Z    ',
 'XXXXXXXXXXX',
 'XXXXXXXXXXX'
 ]
@@ -25,7 +25,7 @@ piece_1 = [
 '           ',
 '           ',
 'XXX    XXXX',
-'XXX    XXXX',
+'XXXMMMMXXXX',
 ]
 
 piece_2 = [
@@ -53,7 +53,7 @@ piece_3 = [
 '           ',
 '        Z  ',
 'XXX    XXXX',
-'XXX    XXXX',
+'XXXMMMMXXXX',
 ]
 
 piece_4 = [
@@ -81,21 +81,21 @@ piece_5 = [
 'XX         ', 
 'XXXX     XX',
 'XXXXXXX  XX',
-'XXXXXXX  XX ', 
+'XXXXXXXMMXX ', 
 ]
 
 parede = [
-'X',
-'X',
-'X',
-'X',
-'X',
-'X',
-'X',
-'X',
-'X',
-'X',
-'X',
+'N',
+'N',
+'N',
+'N',
+'N',
+'N',
+'N',
+'N',
+'N',
+'N',
+'N',
 ]
 
 pecas = [];
@@ -122,8 +122,6 @@ def geradorPeca():
 
         if(i >= 10):
             peca.append(piso)
-
-        print(peca)
 
 geradorPeca()
 

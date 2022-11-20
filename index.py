@@ -30,9 +30,6 @@ enemies = pygame.sprite.Group()
 #     zumbi = Zumbi(random.randrange(0, largura), 350)
 #     enemies.add(zumbi)
 scroll = 0 
-ground_image = pygame.image.load('Sprites/ground.png').convert_alpha()
-ground_width = ground_image.get_width()
-ground_height = ground_image.get_height()
 
 bg_images = []
 
@@ -42,11 +39,6 @@ while jogando:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                print('i')
-                #jogador.shoot(all_sprites,tiros)
-
 
     hits = pygame.sprite.groupcollide(enemies, tiros, True, True)
     for hit in hits:
@@ -55,9 +47,6 @@ while jogando:
         enemies.add(m)
     tela.fill('black')
     level.run()
-    #enemies.draw(tela)
     
     pygame.display.update()
-    #all_sprites.draw(tela)
-    
     clock.tick(60)
