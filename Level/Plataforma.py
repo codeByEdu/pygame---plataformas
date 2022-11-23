@@ -10,7 +10,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.image = pygame.Surface((size,size))
         self.image.fill(color)
         if(color != 'black' and color != 'red'):
-            self.image = pygame.image.load('Sprites\Cenario\piso.png')
+            self.image = pygame.image.load('Sprites/Cenario/piso.png')
         self.rect = self.image.get_rect(topleft = pos)
     
     def update(self,x_shift, player):
