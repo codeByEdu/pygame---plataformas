@@ -1,4 +1,5 @@
 import pygame
+import pygame_menu
 
 from Personagem.Personagem import Personagem
 from Personagem.Zumbi import Zumbi
@@ -19,6 +20,7 @@ class level:
         self.plataformas = pygame.sprite.Group()
         self.personagem = pygame.sprite.GroupSingle()
         self.zumbi = pygame.sprite.Group()
+        self.layout = layout
         for row_index, row in enumerate(layout):
             for col_index,cell in enumerate(row):
                 x = col_index * tam_plataforma
@@ -39,7 +41,18 @@ class level:
                     plataforma = Plataforma((x,y),tam_plataforma, 'red')
                     self.plataformas.add(plataforma)
 
+    def restart(self, tela):
+        if self.personagem.sprite.estado == 'morto':
+            
+            menu = pygame_menu.Menu("Você Morreu!", 300, 300, theme=pygame_menu.themes.THEME_BLUE )
+            image_path = "Sprites/sad.png"
+            menu.add.image(image_path, angle=10, scale=(0.15, 0.15))
+           
+            menu.add.button("Sair", pygame_menu.events.EXIT)
+            menu.mainloop(tela)    
+            
 
+            
     def run(self):
         #level plataformas
         self.plataformas.update(self.world_shift, self.personagem.sprite)
@@ -51,16 +64,16 @@ class level:
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
-
+        self.restart(self.display_surface)
         white = (255, 255, 255)
         green = (0, 255, 0)
         black = (0, 0, 0)
         font = pygame.font.Font('arial.ttf', 32)
-        text = font.render(str(50), True, green, black)
+        text = font.render(str(int(self.personagem.sprite.life)), True, green, black)
         textRect = text.get_rect()
         textRect.center = (1200 // 2, 100)
         self.display_surface.blit(text, textRect)
-        print(self.personagem)
+      
 
         #zumbi
         self.zumbi.update(self.world_shift, self.personagem.sprite)

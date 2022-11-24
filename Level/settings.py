@@ -25,7 +25,7 @@ piece_1 = [
 '           ',
 '           ',
 'XXX    XXXX',
-'XXXMMMMXXXX',
+'XXX    XXXX',
 ]
 
 piece_2 = [
@@ -53,7 +53,7 @@ piece_3 = [
 '           ',
 '        Z  ',
 'XXX    XXXX',
-'XXXMMMMXXXX',
+'XXX    XXXX',
 ]
 
 piece_4 = [
@@ -81,7 +81,7 @@ piece_5 = [
 'XX         ', 
 'XXXX     XX',
 'XXXXXXX  XX',
-'XXXXXXXMMXX ', 
+'XXXXXXX  XX ', 
 ]
 
 parede = [
