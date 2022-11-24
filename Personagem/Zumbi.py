@@ -23,7 +23,7 @@ class Zumbi(pygame.sprite.Sprite):
         self.on_ceiling = False
         self.on_left = False
         self.on_right = False
-
+        self.life = 5
     def update(self,x_shift, player):
         self.rect.x += x_shift
         self.animar_personagem()
@@ -91,5 +91,8 @@ class Zumbi(pygame.sprite.Sprite):
             self.estado = 'Andando'
         else:
             self.estado = 'Parado' 
+
+    def levaDano(self):
+        self.life -=0.1
        
 

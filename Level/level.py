@@ -15,7 +15,7 @@ class level:
         self.setup_level(level_data)
         self.world_shift = 0
         self.x_atual = 0
-
+        self.kills= 0
     def setup_level(self,layout):
         self.plataformas = pygame.sprite.Group()
         self.personagem = pygame.sprite.GroupSingle()
@@ -65,15 +65,29 @@ class level:
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
+        self.attackEnemies()
         self.restart(self.display_surface)
         white = (255, 255, 255)
         green = (0, 255, 0)
         black = (0, 0, 0)
         font = pygame.font.Font('arial.ttf', 32)
-        text = font.render(str(int(self.personagem.sprite.life)), True, green, black)
+        text = font.render(str("Vida"), True, green, black)
+        text1 = font.render(str(int(self.personagem.sprite.life)), True, green, black)
+        text2 = font.render(str("Pontos"), True, green, black)
+        text3 = font.render(str(int(self.kills)), True, green, black)
         textRect = text.get_rect()
+        textRect1 = text.get_rect()
+        textRect2 = text.get_rect()
+        textRect3 = text.get_rect()
         textRect.center = (1200 // 2, 100)
+        textRect1.center = (1200 // 2, 150)
+        textRect2.center = (1200 // 2, 200)
+        textRect3.center = (1200 // 2, 250)
         self.display_surface.blit(text, textRect)
+        self.display_surface.blit(text1, textRect1)
+        self.display_surface.blit(text2, textRect2)
+        self.display_surface.blit(text3, textRect3)
+
       
 
         if(personagem.sprite.atacando == True):
@@ -144,3 +158,13 @@ class level:
             personagem.on_ground = False
         if personagem.on_ceiling and personagem.direcao.y > 0:
             personagem.on_ceiling = False
+
+
+    def attackEnemies(self):
+        personagem = self.personagem.sprite
+        hits = False
+        if  personagem.atacando:
+            hits = pygame.sprite.groupcollide(self.personagem,self.zumbi,False, True)
+    
+        if hits:
+            self.kills+=1

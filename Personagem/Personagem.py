@@ -31,7 +31,7 @@ class Personagem(pygame.sprite.Sprite):
         self.on_ground = False
         self.on_ceiling = False
         self.on_left = False
-        self.on_right = False
+        self.on_right = False   
         self.atacando = False
 
     def colocar(self, superficie):
@@ -42,18 +42,20 @@ class Personagem(pygame.sprite.Sprite):
         if keystate[pygame.K_a] :
             self.direcao.x = -1
             self.direita = False
+            self.atacando = False
         elif keystate[pygame.K_d] :
             self.direcao.x = 1
             self.direita = True
+            self.atacando = False
         else:
             self.direcao.x = 0
         if keystate[pygame.K_w]:
+           self.atacando = False
            if  self.on_ground == True:
                 self.jump()
         if keystate[pygame.K_SPACE]:
             self.atacando = True
-            self.velocidade_animacao = 0.5
-            self.atacando = False
+            self.shoot()
 
     def morreu(self):
         self.estado = 'morto'     
@@ -70,8 +72,19 @@ class Personagem(pygame.sprite.Sprite):
             self.morreu()
         if self.life < 0:
             self.morreu()
+        
+
     def jump(self):
+        
         self.direcao.y = self.pulo
+        
+    def shoot(self):
+        
+        self.estado = 'atacando'
+        self.velocidade_animacao = 0.5
+
+        
+        
 
     def levaDano(self):
         self.life -= 0.01

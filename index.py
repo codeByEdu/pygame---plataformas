@@ -38,7 +38,7 @@ def menuInicial():
     menu.add.button("Sair", pygame_menu.events.EXIT)
 
     menu.mainloop(tela)
-
+          
 
 def start_the_game():
     while jogando:
