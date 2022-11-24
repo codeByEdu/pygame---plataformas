@@ -56,13 +56,10 @@ class Personagem(pygame.sprite.Sprite):
             self.atacando = False
 
     def morreu(self):
-<<<<<<< HEAD
         self.estado = 'morto'     
-=======
         print("MORREU")
         pygame.quit()
         sys.exit()
->>>>>>> f9518013d64a8e933d6ce195c9a3e908ba4edaf9
 
     def update(self):
         self.comandos()
@@ -77,15 +74,10 @@ class Personagem(pygame.sprite.Sprite):
         self.direcao.y = self.pulo
 
     def levaDano(self):
-<<<<<<< HEAD
         self.life -= 0.01
-
-        
-=======
         self.life -= 0.001
         if self.life < 0:
             self.morreu()
->>>>>>> f9518013d64a8e933d6ce195c9a3e908ba4edaf9
 
     def import_assets(self):
         caminho = 'Sprites/Personagem/'
