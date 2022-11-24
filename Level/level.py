@@ -65,10 +65,7 @@ class level:
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
-<<<<<<< HEAD
         self.restart(self.display_surface)
-=======
->>>>>>> f9518013d64a8e933d6ce195c9a3e908ba4edaf9
         white = (255, 255, 255)
         green = (0, 255, 0)
         black = (0, 0, 0)
@@ -77,14 +74,11 @@ class level:
         textRect = text.get_rect()
         textRect.center = (1200 // 2, 100)
         self.display_surface.blit(text, textRect)
-<<<<<<< HEAD
       
-=======
 
         if(personagem.sprite.atacando == True):
             print("ATACOU")
         # self.personagemAtaca()
->>>>>>> f9518013d64a8e933d6ce195c9a3e908ba4edaf9
 
         #zumbi
         self.zumbi.update(self.world_shift, self.personagem.sprite)
