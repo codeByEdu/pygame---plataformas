@@ -21,7 +21,7 @@ all_sprites = pygame.sprite.Group()
 
 tiros = pygame.sprite.Group()
 jogando = True
-enemies = pygame.sprite.Group()
+enemies = pygame.sprite.Group()  
 scroll = 0 
 bg_imagews = []
 

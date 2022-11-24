@@ -46,12 +46,12 @@ class level:
         self.plataformas.draw(self.display_surface)
 
         #player
-        self.personagem.update()
-        self.personagem.draw(self.display_surface)
+        personagem = self.personagem
+        personagem.update()
+        personagem.draw(self.display_surface)
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
-
         white = (255, 255, 255)
         green = (0, 255, 0)
         black = (0, 0, 0)
@@ -60,12 +60,18 @@ class level:
         textRect = text.get_rect()
         textRect.center = (1200 // 2, 100)
         self.display_surface.blit(text, textRect)
-        print(self.personagem)
+
+        if(personagem.sprite.atacando == True):
+            print("ATACOU")
+        # self.personagemAtaca()
 
         #zumbi
         self.zumbi.update(self.world_shift, self.personagem.sprite)
         self.zumbi.draw(self.display_surface)
-        
+
+    def personagemAtaca(self):
+        fantasmas = self.zumbi
+        print(fantasmas.__len__())
 
     def scroll_x(self):
         personagem = self.personagem.sprite
@@ -80,6 +86,7 @@ class level:
         else: 
             self.world_shift = 0
             personagem.velocidade = 8
+
     def colisoes_horizontais(self):
         personagem = self.personagem.sprite
         personagem.rect.x += personagem.direcao.x *personagem.velocidade
@@ -118,11 +125,6 @@ class level:
                     personagem.direcao.y = 0                    
                     personagem.on_ceiling = True
 
-                # if zumbi.direcao.y > 0:
-                    
-                #     zumbi.rect.bottom = sprite.rect.top
-                #     zumbi.direcao.y = 0
-                #     zumbi.on_ground = True
         if personagem.on_ground and personagem.direcao.y < 0 or personagem.direcao.y >1:
             personagem.on_ground = False
         if personagem.on_ceiling and personagem.direcao.y > 0:
