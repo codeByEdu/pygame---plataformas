@@ -50,18 +50,17 @@ class Personagem(pygame.sprite.Sprite):
             self.shoot()
 
     def morreu(self):
-        print("MORREU")
-        pygame.quit()
-        sys.exit()           
+        self.estado = 'morto'     
 
     def update(self):
         self.comandos()
         self.animar_personagem()
         self.estado_personagem()
 
-        if(self.rect.y >= 584):
+        if(self.rect.y >= 800):
             self.morreu()
-        
+        if self.life < 0:
+            self.morreu()
     def jump(self):
         self.direcao.y = self.pulo
         
@@ -72,8 +71,7 @@ class Personagem(pygame.sprite.Sprite):
     def levaDano(self):
         self.life -= 0.01
 
-        if self.life < 0:
-            self.morreu()
+        
 
     def import_assets(self):
         caminho = 'Sprites/Personagem/'
@@ -83,28 +81,29 @@ class Personagem(pygame.sprite.Sprite):
             self.animacoes[animacao] = pasta(caminho_completo)
 
     def animar_personagem(self):
-        animacao = self.animacoes[self.estado]
-        self.frame_index += self.velocidade_animacao
-        if self.frame_index >= len(animacao):
-            self.frame_index = 0
-        imagem = animacao[int(self.frame_index)]
-        imagem_virada = pygame.transform.flip(imagem,True,False)
-        if self.direita:
-            self.image = imagem
-        else:
-            self.image = imagem_virada
-        if self.on_ground and self.on_right:
-           self.rect = self.image.get_rect(bottomright = self.rect.bottomright) 
-        elif self.on_ground and self.on_left:
-            self.rect = self.image.get_rect(bottomleft = self.rect.bottomleft) 
-        elif self.on_ground:
-            self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
-        if self.on_ceiling and self.on_right:
-           self.rect = self.image.get_rect(topright = self.rect.topright) 
-        elif self.on_ceiling and self.on_left:
-            self.rect = self.image.get_rect(topleft = self.rect.topleft) 
-        elif self.on_ceiling:
-            self.rect = self.image.get_rect(midtop = self.rect.midtop)
+        if self.estado != 'morto':
+            animacao = self.animacoes[self.estado]
+            self.frame_index += self.velocidade_animacao
+            if self.frame_index >= len(animacao):
+                self.frame_index = 0
+            imagem = animacao[int(self.frame_index)]
+            imagem_virada = pygame.transform.flip(imagem,True,False)
+            if self.direita:
+                self.image = imagem
+            else:
+                self.image = imagem_virada
+            if self.on_ground and self.on_right:
+                self.rect = self.image.get_rect(bottomright = self.rect.bottomright) 
+            elif self.on_ground and self.on_left:
+                self.rect = self.image.get_rect(bottomleft = self.rect.bottomleft) 
+            elif self.on_ground:
+                self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
+            if self.on_ceiling and self.on_right:
+                self.rect = self.image.get_rect(topright = self.rect.topright) 
+            elif self.on_ceiling and self.on_left:
+                self.rect = self.image.get_rect(topleft = self.rect.topleft) 
+            elif self.on_ceiling:
+                self.rect = self.image.get_rect(midtop = self.rect.midtop)
 
     def estado_personagem(self):
         if self.direcao.y < 0:
