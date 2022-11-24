@@ -55,3 +55,46 @@ def start_the_game():
 
 
 menuInicial()
+enemies = pygame.sprite.Group()  
+scroll = 0 
+bg_imagews = []
+
+while jogando:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    level.run()
+    pygame.display.update()
+    clock.tick(60)
+    tela.fill('black')
+
+nome = ""
+
+
+def menuInicial():
+    menu = pygame_menu.Menu("Bem vindo", 600, 500, theme=pygame_menu.themes.THEME_BLUE)
+
+    nome = menu.add.text_input("Nome :", default="Pupo")
+
+    menu.add.button("Jogar", start_the_game)
+    menu.add.button("Sair", pygame_menu.events.EXIT)
+
+    menu.mainloop(tela)
+
+
+def start_the_game():
+    while jogando:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        level.run()
+
+        pygame.display.update()
+
+        clock.tick(60)
+        tela.fill("black")
+
+
+menuInicial()

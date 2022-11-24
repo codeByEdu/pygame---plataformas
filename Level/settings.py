@@ -1,4 +1,5 @@
 import random
+import time
 
 piece_main = [
 'N          ',
@@ -124,6 +125,13 @@ def geradorPeca():
             peca.append(piso)
 
 geradorPeca()
+
+gerarZumbi = True
+def geraZumbi():
+    for i in range(pecas.__len__()):
+        print(i)
+        
+geraZumbi()
 
 fase = [piece_1,piece_2, piece_3, piece_4, piece_5, parede]
 for i in range(len(fase)):
