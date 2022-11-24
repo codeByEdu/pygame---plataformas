@@ -34,5 +34,3 @@ while jogando:
     pygame.display.update()
     clock.tick(60)
     tela.fill('black')
-  
-    

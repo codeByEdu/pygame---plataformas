@@ -52,7 +52,7 @@ class Personagem(pygame.sprite.Sprite):
     def morreu(self):
         print("MORREU")
         pygame.quit()
-        sys.exit()           
+        sys.exit()
 
     def update(self):
         self.comandos()
@@ -71,7 +71,6 @@ class Personagem(pygame.sprite.Sprite):
 
     def levaDano(self):
         self.life -= 0.01
-
         if self.life < 0:
             self.morreu()
 
