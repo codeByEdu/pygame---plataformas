@@ -24,36 +24,35 @@ class Zumbi(pygame.sprite.Sprite):
         self.on_left = False
         self.on_right = False
         self.life = 5
-    def update(self,x_shift, player):
+        self.dano = 0.01
+        
+    def update(self,x_shift, player, fase):
         self.rect.x += x_shift
         self.animar_personagem()
         self.estado_personagem()
-        self.move_towards_player2(player)
+        self.move_towards_player2(player, fase)
     
     def caminhar(self):
         self.direcao.x = -1
         self.direita = False
 
+        
     def personagemAtacou(self, personagem):
         dirvect = pygame.math.Vector2(personagem.rect.x - self.rect.x,
                                         personagem.rect.y - self.rect.y)
-        print("atacou")
 
-    def move_towards_player2(self, player):
+    def move_towards_player2(self, player, fase):
         dirvect = pygame.math.Vector2(player.rect.x - self.rect.x,
                                         player.rect.y - self.rect.y)
-        if dirvect.length() >= 60:
+        if dirvect.length() >= 120:
             dirvect.normalize_ip()
-            dirvect *= self.speed
+            dirvect *= (self.speed * fase)
             self.direcao = dirvect
             self.rect.x += dirvect.x
             self.rect.y += dirvect.y
         else:
             self.estado = 'Atacando'
-            player.levaDano()
-
-    def levaDano():
-        print("Dano")
+            player.levaDano(self.dano)
 
     def import_assets(self):
         caminho = 'Sprites/Zumbi/'

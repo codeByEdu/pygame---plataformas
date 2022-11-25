@@ -32,8 +32,7 @@ nome = ""
 def menuInicial():
     menu = pygame_menu.Menu("Bem vindo", 600, 500, theme=pygame_menu.themes.THEME_BLUE)
 
-    nome = menu.add.text_input("Nome :", default="Pupo")
-
+    username = menu.add.text_input('Nome:', default='')
     menu.add.button("Jogar", start_the_game)
     menu.add.button("Sair", pygame_menu.events.EXIT)
 
@@ -74,8 +73,6 @@ nome = ""
 
 def menuInicial():
     menu = pygame_menu.Menu("Bem vindo", 600, 500, theme=pygame_menu.themes.THEME_BLUE)
-
-    nome = menu.add.text_input("Nome :", default="Pupo")
 
     menu.add.button("Jogar", start_the_game)
     menu.add.button("Sair", pygame_menu.events.EXIT)
