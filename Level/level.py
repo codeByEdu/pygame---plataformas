@@ -15,7 +15,7 @@ class level:
         self.setup_level(level_data)
         self.world_shift = 0
         self.x_atual = 0
-
+        self.kills= 0
     def setup_level(self,layout):
         self.plataformas = pygame.sprite.Group()
         self.personagem = pygame.sprite.GroupSingle()
@@ -59,27 +59,72 @@ class level:
         self.plataformas.draw(self.display_surface)
 
         #player
-        self.personagem.update()
-        self.personagem.draw(self.display_surface)
+        personagem = self.personagem
+        personagem.update()
+        personagem.draw(self.display_surface)
         self.scroll_x()
         self.colisoes_horizontais()
         self.colisoes_verticais()
+        self.attackEnemies()
         self.restart(self.display_surface)
+        self.fase = 1
+        self.infos()
+
+        #zumbi
+        self.zumbi.update(self.world_shift, self.personagem.sprite, self.fase)
+        self.zumbi.draw(self.display_surface)
+
+       
+
+    def personagemAtaca(self):
+        fantasmas = self.zumbi
+    def infos(self):
         white = (255, 255, 255)
         green = (0, 255, 0)
         black = (0, 0, 0)
+        fase = self.kills / 10
+        if(fase < 1):
+            fase = 1
+        else:
+            fase = int(fase)
         font = pygame.font.Font('arial.ttf', 32)
-        text = font.render(str(int(self.personagem.sprite.life)), True, green, black)
+        text = font.render(str("Vida"), True, green, black)
+        text1 = font.render(str(int(self.personagem.sprite.life)), True, green, black)
+        text2 = font.render(str("Pontos"), True, green, black)
+        text3 = font.render(str(int(self.kills)), True, green, black)
+        text4 = font.render(str("Fase " + str(fase)), True, green, black)
         textRect = text.get_rect()
-        textRect.center = (1200 // 2, 100)
+        textRect1 = text.get_rect()
+        textRect2 = text.get_rect()
+        textRect3 = text.get_rect()
+        textRect4 = text4.get_rect()
+        textRect.center = (100, 100)
+        textRect1.center = (100, 150)
+        textRect2.center = (100, 200)
+        textRect3.center = (100, 250)
+        textRect4.center = (1200//2, 100)
         self.display_surface.blit(text, textRect)
-      
+        self.display_surface.blit(text1, textRect1)
+        self.display_surface.blit(text2, textRect2)
+        self.display_surface.blit(text3, textRect3)
+        self.display_surface.blit(text4, textRect4)
+         #highscore
+        highscore = ''
+        with open('highscore.txt') as f:
+            linha = f.readline()
+            highscore = linha
+            if(int(self.kills) > int(linha)):
+                with open('highscore.txt', 'w') as h:
+                    h.write(str(self.kills))
 
-        #zumbi
-        self.zumbi.update(self.world_shift, self.personagem.sprite)
-        self.zumbi.draw(self.display_surface)
-        
-
+            pontuacaoMaximaTexto = font.render(str(highscore), True, green, black)
+            pontuacaoMaximaTextoRect = pontuacaoMaximaTexto.get_rect()
+            pontuacaoMaximaTextoRect.center = (80, 350)
+            textoPontuacaoMaxima = font.render(str("Pontuação Máxima"), True, green, black)
+            textoPontuacaoMaximaRect = textoPontuacaoMaxima.get_rect()
+            textoPontuacaoMaximaRect.center = (210, 300)
+            self.display_surface.blit(textoPontuacaoMaxima, textoPontuacaoMaximaRect)
+            self.display_surface.blit(pontuacaoMaximaTexto, pontuacaoMaximaTextoRect)
     def scroll_x(self):
         personagem = self.personagem.sprite
         personagem_x = personagem.rect.centerx
@@ -93,6 +138,7 @@ class level:
         else: 
             self.world_shift = 0
             personagem.velocidade = 8
+
     def colisoes_horizontais(self):
         personagem = self.personagem.sprite
         personagem.rect.x += personagem.direcao.x *personagem.velocidade
@@ -131,12 +177,22 @@ class level:
                     personagem.direcao.y = 0                    
                     personagem.on_ceiling = True
 
-                # if zumbi.direcao.y > 0:
-                    
-                #     zumbi.rect.bottom = sprite.rect.top
-                #     zumbi.direcao.y = 0
-                #     zumbi.on_ground = True
         if personagem.on_ground and personagem.direcao.y < 0 or personagem.direcao.y >1:
             personagem.on_ground = False
         if personagem.on_ceiling and personagem.direcao.y > 0:
             personagem.on_ceiling = False
+
+    def niveis(self):
+        if self.fase == 2:
+            self.display_surface.draw(self.zumbi)
+        if self.fase == 3:
+            self.display_surface.draw(self.zumbi)
+
+    def attackEnemies(self):
+        personagem = self.personagem.sprite
+        hits = False
+        if  personagem.atacando:
+            hits = pygame.sprite.groupcollide(self.personagem,self.zumbi,False, True)
+
+        if hits:
+            self.kills +=1

@@ -1,4 +1,5 @@
 import random
+import time
 
 piece_main = [
 'N          ',
@@ -16,7 +17,7 @@ piece_main = [
 
 piece_1 = [
 '           ',
-'           ',
+'  Z        ',
 '           ',
 '           ',
 '           ',
@@ -30,16 +31,16 @@ piece_1 = [
 
 piece_2 = [
 '           ',
+'    Z      ',
 '           ',
-'           ',
-'           ',
+'     Z     ',
 '           ',
 '           ',
 '       X   ',
 '           ',
 '      Z    ',
-'XXXXXXXXXXX',
-'XXXXXXXXXXX',
+'XXXX    XXX',
+'XXXX    XXX',
 ]
 
 piece_3 = [
@@ -57,30 +58,30 @@ piece_3 = [
 ]
 
 piece_4 = [
-'           ',
+'      Z    ',
 '           ',
 ' XXXX      ',
 '           ',
-'         X ',
+'   Z     X ',
 '           ',
 '       XX  ',
 '           ',
 '      Z    ',
-'XXXXXXXXXXX',
-'XXXXXXXXXXX',
+'XZXXX  X  X',
+'XXXXX  X  X',
 ]
 
 piece_5 = [
+'    Z      ',
 '           ',
-'           ',
-'           ',
+'        Z  ',
 '           ',
 '    Z      ',
 '   XX      ', 
 ' XX        ', 
-'XX         ', 
-'XXXX     XX',
-'XXXXXXX  XX',
+'XX      ZZ ', 
+'XXXX       ',
+'XXXXXXX    ',
 'XXXXXXX  XX ', 
 ]
 
@@ -125,10 +126,20 @@ def geradorPeca():
 
 geradorPeca()
 
-fase = [piece_1,piece_2, piece_3, piece_4, piece_5, parede]
-for i in range(len(fase)):
-    for a in range(len(fase[i])):
-        piece_main[a] += fase[i][a]
+fase = [piece_1,piece_2, piece_3, piece_4, piece_5]
+
+for i in range(30):
+    ran = random.randint(0, fase.__len__() - 1)
+    for a in range(len(fase[ran])):
+        piece_main[a] += fase[ran][a]
+piece_main += parede
+
+# gerarZumbi = True
+# def geraZumbi():
+#     for i in range(fase.__len__()):
+#         print(fase[i])
+        
+# geraZumbi()
 
 tam_plataforma = 64
 width = 1280

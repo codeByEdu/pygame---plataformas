@@ -2,8 +2,11 @@ import sys
 
 import pygame
 
+from Level import level
+
 from .Bala import Bala
 from .suporte import pasta
+from .Zumbi import Zumbi
 
 largura = 800
 altura = 432
@@ -13,14 +16,14 @@ class Personagem(pygame.sprite.Sprite):
         super().__init__()
         self.import_assets()
         self.frame_index = 0
+        self.estado = 'parado'
+        self.image = self.animacoes[self.estado][self.frame_index]
         self.velocidade_animacao = 0.15
-        self.image = self.animacoes['parado'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
         self.life = 5
         self.velocidade = 1
         self.direita = True
         self.direcao = pygame.math.Vector2(0,0)
-        self.estado = 'parado'
         self.gravidade = 0.9
         self.pulo = -22
         self.velocidade_pulo = self.pulo
@@ -29,6 +32,7 @@ class Personagem(pygame.sprite.Sprite):
         self.on_ceiling = False
         self.on_left = False
         self.on_right = False   
+        self.atacando = False
 
     def colocar(self, superficie):
         superficie.blit(self.image, self.rect, (0, 100, 255))
@@ -38,15 +42,19 @@ class Personagem(pygame.sprite.Sprite):
         if keystate[pygame.K_a] :
             self.direcao.x = -1
             self.direita = False
+            self.atacando = False
         elif keystate[pygame.K_d] :
             self.direcao.x = 1
             self.direita = True
+            self.atacando = False
         else:
             self.direcao.x = 0
         if keystate[pygame.K_w]:
+           self.atacando = False
            if  self.on_ground == True:
                 self.jump()
         if keystate[pygame.K_SPACE]:
+            self.atacando = True
             self.shoot()
 
     def morreu(self):
@@ -61,17 +69,21 @@ class Personagem(pygame.sprite.Sprite):
             self.morreu()
         if self.life < 0:
             self.morreu()
+        
+
     def jump(self):
         self.direcao.y = self.pulo
         
     def shoot(self):
         self.estado = 'atacando'
         self.velocidade_animacao = 0.5
-
-    def levaDano(self):
-        self.life -= 0.01
-
         
+
+    def levaDano(self, dano ):
+        self.life -= dano
+        
+        if self.life < 0:
+            self.morreu()
 
     def import_assets(self):
         caminho = 'Sprites/Personagem/'
@@ -106,6 +118,9 @@ class Personagem(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect(midtop = self.rect.midtop)
 
     def estado_personagem(self):
+        if(self.atacando == True):
+            self.estado = 'atacando'
+            return
         if self.direcao.y < 0:
             self.estado = 'pulando'
         elif self.direcao.y > 1:
